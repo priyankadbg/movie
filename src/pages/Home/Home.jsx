@@ -10,8 +10,8 @@ import Footer from "../../components/Footer/Footer";
 const Home = () => {
   return (
     <div className="home">
-      {/* <Navbar /> */}
-      {/* <div className="hero">
+      <Navbar />
+      <div className="hero">
         <img src={hero_banner} alt="" className="banner-img" />
         <div className="hero-caption">
           <img src={hero_title} alt="" className="caption-img" />
@@ -26,9 +26,9 @@ const Home = () => {
               More Info
             </button>
           </div>
-          <TitleCards />
+          {/* <TitleCards /> */}
         </div>
-      </div> */}
+      </div>
       <div className="more-cards">
         <TitleCards title={"Popular on Netflix"} category={"popular"} />
 
