@@ -4,37 +4,44 @@ import logo from "../../assets/logo.png";
 import { login, signUp } from "../../Firebase";
 
 const Login = () => {
-  const [signState, setSignState] = useState("Sign In ");
+  const [signState, setSignState] = useState("Sign In");
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const user_auth = async (e) => {
     e.preventDefault();
-    if (signState === "Sign In") {
-      await login(email, password);
-    } else {
-      await signUp(name, email, password);
+    setError("");
+    try {
+      if (signState === "Sign In") {
+        await login(email, password);
+        console.log("Login successful");
+      } else {
+        await signUp(name, email, password);
+        console.log("Sign up successful");
+      }
+    } catch (err) {
+      console.error("Authentication error:", err);
+      setError(err.message);
     }
   };
+
   return (
     <div className="Login">
       <img src={logo} className="login-logo" alt="" />
       <div className="login-form">
         <h1>{signState}</h1>
         <form>
-          {signState === "Sign Up" ? (
+          {signState === "Sign Up" && (
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
               type="text"
               placeholder="Your Name"
             />
-          ) : (
-            <></>
           )}
-
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -50,6 +57,7 @@ const Login = () => {
           <button onClick={user_auth} type="submit">
             {signState}
           </button>
+          {error && <p className="error-message">{error}</p>}
           <div className="form-help">
             <div className="remember">
               <input type="checkbox" />
@@ -61,25 +69,13 @@ const Login = () => {
         <div className="form-switch">
           {signState === "Sign In" ? (
             <p>
-              New to NetFlix?{" "}
-              <span
-                onClick={() => {
-                  setSignState("Sign Up");
-                }}
-              >
-                Sign up Now
-              </span>
+              New to Netflix?{" "}
+              <span onClick={() => setSignState("Sign Up")}>Sign up Now</span>
             </p>
           ) : (
             <p>
-              Already have a account?{" "}
-              <span
-                onClick={() => {
-                  setSignState("Sign In");
-                }}
-              >
-                Sign In
-              </span>
+              Already have an account?{" "}
+              <span onClick={() => setSignState("Sign In")}>Sign In</span>
             </p>
           )}
         </div>
